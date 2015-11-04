@@ -1,0 +1,28 @@
+<form name="myForm" ng-show="visible">
+<input type="hidden" name="_token" value="{{ csrf_token() }}">
+  <div class="control-group" ng-class="{error: myForm.name.$invalid && !myForm.name.$pristine}">
+    <label>Name</label>
+    <input type="text" name="name" ng-model="todoData.name" required>
+    <span ng-show="myForm.name.$error.required && !myForm.name.$pristine" class="help-inline">
+        Required {{myForm.name.$pristine}}</span>
+  </div>
+ 
+  <div class="control-group" ng-class="{error: myForm.site.$invalid && !myForm.site.$pristine}">
+    <label>Website</label>
+    <input type="url" name="website" ng-model="todoData.website" required>
+    <span ng-show="myForm.site.$error.required && !myForm.site.$pristine" class="help-inline">
+        Required</span>
+    <span ng-show="myForm.site.$error.url" class="help-inline">
+        Not a URL</span>
+  </div>
+ 
+  <label>Description</label>
+  <textarea name="description" ng-model="todoData.description"></textarea>
+ 
+  <br>
+  <a href="#/" class="btn">Cancel</a>
+  <button ng-click="submitTodo()" ng-disabled="myForm.$invalid"
+          class="btn btn-primary">Save</button>
+  <button ng-click="deleteTodo()"
+          ng-show="todoData.$id" class="btn btn-danger">Delete</button>
+</form>

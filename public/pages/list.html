@@ -1,0 +1,51 @@
+    <input type="text" ng-model="todos.search" class="search-query" id="projects_search"
+       placeholder="Search">
+<table ng-show="visible">
+  <thead>
+  <tr>
+    <th>Project</th>
+    <th>Description</th>
+    <th><a href="#/new"><i class="fa fa-plus-circle"></i></a></th>
+    <th><button ng-click="refreshTodo()"><i class="fa fa-refresh"></i></button></th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="todo in todos | filter:todos.search | orderBy:'name'">
+    <td><a ng-href="<%todo.website%>" target="_blank"><%todo.name%></a></td>
+    <td><%todo.description%></td>
+    <td>
+      <button ng-click="editTodo(todo.id)"><i class="fa fa-pencil"></i></button>
+    </td>
+    <td>
+      <button ng-click="deleteTodo(todo.id)"><i class="fa fa-trash-o"></i></button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<form name="myForm" ng-show="visible1">
+<input type="hidden" name="_token" value="{{ csrf_token() }}">
+  <div class="control-group" ng-class="{error: myForm.name.$invalid && !myForm.name.$pristine}">
+    <label>Name</label>
+    <input type="text" name="name" ng-model="todoss.name" required>
+    <span ng-show="myForm.name.$error.required && !myForm.name.$pristine" class="help-inline">
+        Required {{myForm.name.$pristine}}</span>
+  </div>
+ 
+  <div class="control-group" ng-class="{error: myForm.site.$invalid && !myForm.site.$pristine}">
+    <label>Website</label>
+    <input type="url" name="website" ng-model="todoss.website" required>
+    <span ng-show="myForm.site.$error.required && !myForm.site.$pristine" class="help-inline">
+        Required</span>
+    <span ng-show="myForm.site.$error.url" class="help-inline">
+        Not a URL</span>
+  </div>
+ 
+  <label>Description</label>
+  <textarea name="description" ng-model="todoss.description"></textarea>
+ 
+  <br>
+  <button ng-click="cancelEdit()" class="btn btn-danger">Cancel</button>
+  <button ng-click="updateTodo(todoss.id)" ng-disabled="myForm.$invalid"
+          class="btn btn-primary">Save</button>
+</form>
